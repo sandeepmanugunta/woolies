@@ -8,6 +8,7 @@ import cucumber.api.java.en.When;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
+import junit.framework.Assert;
 import org.openqa.selenium.WebDriver;
 import steps.MyWorkListPage;
 
@@ -106,13 +107,13 @@ public class MyWorkList extends  BaseSteps {
         String appid = "0160bd5db93edab14469f8bc86a74207";
     }
 
-    @When("^I only like to holiday on Thursdays$")
+    @And("^I only like to holiday on Thursdays$")
     public void iOnlyLikeToHolidayOnThursdays() {
         // identify thursday weather and convert kelvin to celsius
         String thursday_weather;
     }
 
-    @Then("^I look up the weather forecast$")
+    @When("^I look up the weather forecast$")
     public void iLookUpTheWeatherForecast() {
 
         // Pass Sydney city code and appid as a parameter in the get request
@@ -126,25 +127,18 @@ public class MyWorkList extends  BaseSteps {
                 and().
                 contentType(ContentType.JSON);
 
+
+    }
+
+    @Then("^I receive the weather forecast$")
+    public void iReceiveTheWeatherForecast() throws Exception {
+
         Response response = get("http://api.openweathermap.org/data/2.5/forecast/daily?id=2147714&appid=0160bd5db93edab14469f8bc86a74207");
         ResponseBody body = response.getBody();
         String bodyAsString = body.asString();
         System.out.println("response of the url is " +bodyAsString);
-
-
-    }
-
-    @And("^I receive the weather forecast$")
-    public void iReceiveTheWeatherForecast() throws Exception {
-        // Assume thursday weather as 12 degree celsius as we dont have actual weather value due to issue with appid.
-        int thursday_weather = 12;
-        // if thursday temperature is greater than 10 degree celsius its good for holiday else not an ideal weather
-        if(thursday_weather >= 10) {
-            System.out.println("Its a good day for holiday");
-        }
-        else
-            System.out.println("Weather is not ideal for holiday");
-
+        int statusCode = response.getStatusCode();
+        Assert.assertEquals(String.valueOf(statusCode), 200 , "Correct status code is returned");
     }
 
     @When("^I select checkin, guest and search$")
@@ -162,11 +156,6 @@ public class MyWorkList extends  BaseSteps {
     public void iClickOnBook() throws InterruptedException {
         Thread.sleep(3000);
         worklistPage.selectBookNow();
-        worklistPage.enterFirstName();
-        worklistPage.enterLastName();
-        worklistPage.enterEmail();
-        worklistPage.enterConfirmEmail();
-        worklistPage.enterConfirmThisBooking();
     }
 
     @When("^I select flight, details and search$")
@@ -188,6 +177,16 @@ public class MyWorkList extends  BaseSteps {
         worklistPage.selectFlightBookNow();
     }
 
-
+    @And("^the temperature is warmer than required degrees$")
+    public void theTemperatureIsWarmerThanRequiredDegrees() {
+        // Assume thursday weather as 12 degree celsius as we dont have actual weather value due to issue with appid.
+        int thursday_weather = 12;
+        // if thursday temperature is greater than 10 degree celsius its good for holiday else not an ideal weather
+        if(thursday_weather >= 10) {
+            System.out.println("Its a good day for holiday");
+        }
+        else
+            System.out.println("Weather is not ideal for holiday");
+    }
 }
 

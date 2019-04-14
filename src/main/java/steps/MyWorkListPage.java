@@ -14,6 +14,7 @@ public class MyWorkListPage extends BasePage {
 
     public MyWorkListPage(WebDriver driver) throws Exception {
         super(driver);
+        System.setProperty("webdriver.chrome.driver","/Users/sandeepmanugunta/Desktop/Challenge/wooliestest/drivers/mac/chromedriver");
     }
 
 
@@ -96,8 +97,6 @@ public class MyWorkListPage extends BasePage {
     }
 
     public void ebayHomePage() throws Exception {
-
-        System.setProperty("webdriver.chrome.driver","/Users/sandeepmanugunta/Desktop/Challenge/wooliestest/drivers/mac/chromedriver");
         driver.get("https://www.ebay.com.au");
     }
 

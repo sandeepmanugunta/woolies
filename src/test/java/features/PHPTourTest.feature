@@ -7,3 +7,4 @@ Feature: PHPTourTest
     Given I am on PHPTravel page
     When I select checkin, guest and search
     Then I click on book
+    And I confirm the booking
