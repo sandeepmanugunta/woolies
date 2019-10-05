@@ -2,7 +2,10 @@ package steps;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,17 +21,13 @@ public abstract class BasePage{
 
 
 	public BasePage(WebDriver driver) throws Exception {
-//		super(driver);
+		System.setProperty("webdriver.chrome.driver","/Users/sandeepmanugunta/Desktop/woolies/drivers/mac/chromedriver");
+		driver = new ChromeDriver();
 
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		this.driver = driver;
-	}
-	
-	public BasePage(WebDriver driver, boolean assertPage) throws Exception {
-//		super(driver, assertPage);
-		this.driver = driver;
-	}
 
-
+	}
 
 	public boolean isElementPresent(final By by) {
 		return this.driver.findElements(by).size() > 0;
@@ -61,15 +60,6 @@ public abstract class BasePage{
 		return element.isDisplayed();
 	}
 
-//	public boolean isAnyTextPresent(final By by) {
-//		final String text = this.driver.findElement(by).getText();
-////		return StringUtils.isNotBlank(text);
-//	}
-//
-//	public boolean isAnyTextPresent(final WebElement element) {
-//		final String text = element.getText();
-////		return StringUtils.isNotBlank(text);
-//	}
 
 	public void waitForElement(final WebElement element) {
 		this.waitForElement(element, ELEMENT_WAIT_TIMEOUT_IN_SECONDS);
@@ -195,41 +185,6 @@ public abstract class BasePage{
 		}
 	}
 
-//	public void switchToNewWindow( String currentHandle, String expectedURL) throws Exception{
-//
-//		final Set<String> handles = this.driver.getWindowHandles();
-//
-//	//	System.out.println("NEW : Before switching title is -"+ this.driver.getTitle());
-//        System.out.println("Just for debugging purpose ...listing all the window handles");
-//		System.out.println(handles.size());
-//
-//
-//		if (expectedURL.isEmpty()) {
-//		    //switch on basis of handle ...not on expected URL
-//			for (final String handle : handles) {
-//				if (!currentHandle.equals(handle)) {
-//					this.driver.switchTo().window(handle);
-//                    break;
-//				}
-//			}
-//		}else
-//        {
-//            //if passed the expected URL
-//            String currentURL;
-//            System.out.println("Expected URL -"+ expectedURL);
-//            for (String handle : handles) {
-//                    this.driver.switchTo().window(handle);
-//                    Thread.sleep(1000);
-//                    System.out.println(">After switching title is -"+ this.driver.getCurrentUrl());
-//                    currentURL = this.driver.getCurrentUrl();
-//                    System.out.println("current URL -"+ currentURL);
-//                    if (currentURL.toLowerCase().contains(expectedURL.toLowerCase())) {
-//                        System.out.println("Got the Expected Window -" + expectedURL);
-//                        break;
-//                    }
-//            }
-//        }
-//	}
 
     public void switchToFrame( String frame) {
         this.driver.switchTo().frame(frame);
@@ -311,14 +266,6 @@ public abstract class BasePage{
 		actions.keyUp(Keys.CONTROL).perform();
 	}
 
-//	public void takeScreenshot(final String path) {
-//		final File scrFile = ((TakesScreenshot) this.driver).getScreenshotAs(OutputType.FILE);
-//		try {
-//			FileUtils.copyFile(scrFile, new File(path));
-//		} catch (final IOException e) {
-//			throw new RuntimeException(e);
-//		}
-//	}
 
 	public boolean isAlertPresent() {
 		try {

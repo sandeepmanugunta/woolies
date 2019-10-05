@@ -1,10 +1,7 @@
 @weather
-  @reset
-
-#  there seems to be issue with openweather appid throwing 401 error. I have written the logic behind it.
+@reset
 
 Feature: Weather Test
-
 
   Scenario: A happy holidaymaker
     Given I like to holiday in Sydney
